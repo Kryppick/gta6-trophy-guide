@@ -1,56 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GTA 6 Trophy Guide — Leonida Legend Tracker</title>
-<meta name="description" content="Offline guide and tracker for all 55 Grand Theft Auto VI trophies: checklist, roadmap to the platinum, missables, and a cited guide for every trophy.">
-<link rel="stylesheet" href="./styles.css">
+<meta name="description" content="Offline guide and tracker for all 55 Grand Theft Auto VI PlayStation 5 trophies: roadmap to the platinum, missable flags, cited guides, checklist saved in your browser.">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="masthead">
-  <div class="masthead-inner">
-    <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies</p>
-    <h1>Leonida Legend Tracker</h1>
-    <p class="lede">The best GTA 6 trophy guide, offline. Every trophy with its official name, description and grade, a guide in our own words with its sources, a roadmap to the platinum, and a checklist that saves in your browser.</p>
-    <div class="progress" id="progress" aria-live="polite">
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-      <p class="progress-text" id="progress-text">Loading trophies&hellip;</p>
-    </div>
+<header class="hero">
+  <p class="eyebrow">Grand Theft Auto VI &middot; PlayStation 5 &middot; Unofficial fan guide</p>
+  <h1>Leonida Legend Tracker</h1>
+  <p class="lede">Every one of the 55 official trophies — name, description and grade as PlayStation publishes them — with a roadmap to the platinum, the missable trophies flagged, and a guide for each one that cites its sources. Your checklist is saved in this browser and never leaves it.</p>
+  <div class="progress-wrap" role="status" aria-label="Trophy progress">
+    <div class="progress-line"><strong id="progressText">0 / 55 earned</strong><span id="progressPct">0%</span></div>
+    <div class="progress-bar"><div id="progressFill"></div></div>
+    <p class="progress-grades" id="gradeCounts"></p>
   </div>
 </header>
-<nav class="tabs" aria-label="Sections">
-  <a href="#/" data-route="" class="tab">Tracker</a>
-  <a href="#/roadmap" data-route="roadmap" class="tab">Roadmap to Platinum</a>
-  <a href="#/missables" data-route="missables" class="tab">Missables &amp; saves</a>
-</nav>
-<section class="toolbar" id="toolbar" aria-label="Tracker controls">
-  <input id="search" type="search" placeholder="Search a trophy by name or description&hellip;" aria-label="Search trophies">
-  <div class="chips" id="kind-chips" role="group" aria-label="Filter by kind"></div>
-  <label class="grade-filter">Grade
-    <select id="grade" aria-label="Filter by grade">
-      <option value="">All grades</option>
-      <option>Platinum</option>
-      <option>Gold</option>
-      <option>Silver</option>
-      <option>Bronze</option>
-    </select>
-  </label>
-  <label class="toggle"><input type="checkbox" id="spoiler-toggle"> Hide story spoilers</label>
-  <label class="toggle"><input type="checkbox" id="earned-only"> Earned only</label>
-  <div class="actions">
-    <button type="button" id="export-btn">Export progress</button>
-    <button type="button" id="import-btn">Import progress</button>
-    <input type="file" id="import-file" accept="application/json,.json" hidden>
-    <button type="button" id="reset-btn">Reset</button>
-  </div>
-  <p class="share-note" id="share-note" hidden></p>
-</section>
-<main id="view" aria-live="polite"></main>
-<footer class="colophon">
-  <p>Official trophy names, descriptions and grades are shown as PlayStation publishes them. Guides are written in our own words for this guide and cite their sources beside each trophy — a source is cited, never copied. No Rockstar Games logo, artwork or game screenshot is used anywhere in this guide.</p>
-  <p>Sources for the list: Exophase and PSNProfiles (official list as reported 18 Nov 2026), Output Lag, Press Start, GTA6Bible, KeenGamer, GTA Vice City Hub and u7buy. Works fully offline — this app fetches nothing but its own files.</p>
+
+<main>
+  <section class="controls" aria-label="Tracker controls">
+    <label class="search-label">Search <input id="searchInput" type="search" placeholder="Search a trophy, mission or place…" autocomplete="off"></label>
+    <div class="filters" id="filters" role="group" aria-label="Filter trophies by kind">
+      <button type="button" data-filter="all" class="chip active">All 55</button>
+      <button type="button" data-filter="story" class="chip">Story</button>
+      <button type="button" data-filter="missable" class="chip">Missable</button>
+      <button type="button" data-filter="collectibles" class="chip">Collectibles</button>
+      <button type="button" data-filter="activities" class="chip">Activities</button>
+      <button type="button" data-filter="online" class="chip">Online</button>
+    </div>
+    <div class="toggles">
+      <label class="toggle"><input id="spoilerToggle" type="checkbox" checked> <span>Hide story spoilers until earned</span></label>
+      <label class="toggle"><input id="earnedOnlyToggle" type="checkbox"> <span>Earned only</span></label>
+      <div class="io-buttons">
+        <button type="button" id="exportBtn">Export progress</button>
+        <button type="button" id="importBtn">Import progress</button>
+        <input id="importFile" type="file" accept=".json,application/json" hidden>
+        <button type="button" id="resetBtn" class="danger">Reset</button>
+      </div>
+    </div>
+    <p class="hint" id="filterHint"></p>
+  </section>
+
+  <section class="roadmap" id="roadmap" aria-label="Roadmap to the platinum">
+    <h2>Roadmap to the Platinum</h2>
+    <p class="section-lede">Play in this order. The story alone takes around 60 hours; the full platinum is roughly 200 hours, according to the launch guides. Keep a manual save at the start of every chapter — there is no mission replay.</p>
+    <ol class="stages" id="stages"></ol>
+    <aside class="missable-box" id="missableBox">
+      <h3>Missable trophies — read this first</h3>
+      <p>Only one trophy is flagged as possibly missable by the launch guides: <strong>Positive Mental Attitude</strong>. The meditation spot on Lucia&rsquo;s balcony in Chapter 1 is reported to disappear once that chapter closes, so meditate there before Chapter 1 ends. Every other trophy can be earned after the story in free roam. When in doubt, keep a manual save per chapter.</p>
+    </aside>
+  </section>
+
+  <section aria-label="Trophy checklist">
+    <h2 id="listHeading">Checklist</h2>
+    <p class="section-lede">Tick a trophy when you earn it. Click a row to open its guide and sources. Story trophies stay hidden while the spoiler setting is on.</p>
+    <ul class="trophy-list" id="trophyList"></ul>
+    <p class="empty" id="emptyMsg" hidden>No trophies match this filter. GTA 6 has no online trophies at launch — every trophy is single-player and offline.</p>
+  </section>
+
+  <section class="about" aria-label="About this guide">
+    <h2>How this guide is built</h2>
+    <p>Names, descriptions and grades are the official PlayStation list as published on 18 November 2026 by Exophase and PSNProfiles, cross-checked by Planet GTA 6, Output Lag, GTA Vibes and GTA Six How. Each guide is written in my own words for this entry and names its sources beside it — a source is cited, never copied. Where the game has only just launched and guides do not yet agree on an exact trigger, the guide says so instead of guessing. This is an unofficial fan guide, not affiliated with Rockstar Games. It loads no Rockstar artwork and makes no network request: it runs entirely from its own files.</p>
+    <p>Sources used throughout: Planet GTA 6, Output Lag, GTA Vibes, GTA Six How, GamesRadar+ and PC Gamer trophy lists, and PowerPyx.</p>
+  </section>
+</main>
+
+<aside class="detail" id="detailPanel" aria-label="Trophy guide" hidden>
+  <button type="button" class="detail-close" id="detailClose" aria-label="Close guide">&times;</button>
+  <div id="detailBody"></div>
+</aside>
+
+<footer>
+  <p>Leonida Legend Tracker — an offline, unofficial GTA 6 trophy guide. Data checked 19 November 2026. Progress is stored only in your browser (localStorage).</p>
 </footer>
-<script type="module" src="./app.js"></script>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>
